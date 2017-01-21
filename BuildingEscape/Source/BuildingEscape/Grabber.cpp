@@ -126,12 +126,9 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
-
-
 	//if physics handle is attached 
 	if (PhysicsHandle) {
-
-
+		// get player view point 
 		FVector PlayerViewPointLocation;
 		FRotator PlayerViewPointRotation;
 		GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
@@ -142,14 +139,8 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 		FVector LineTraceEnd = PlayerViewPointLocation + LineTraceDirection * Reach;
 
 		if (PhysicsHandle->GrabbedComponent) {
+			//move the object that we're holding 
 			PhysicsHandle->SetTargetLocation(LineTraceEnd);
 		}
-	}
-		//move the object that we're holding 
-	// get player view point 
-
-	//See what we hit 
-
-
+	}	
 }
-
