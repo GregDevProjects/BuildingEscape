@@ -5,6 +5,7 @@
 #include "Components/ActorComponent.h"
 #include "Grabber.generated.h"
 
+enum ELineTracePosition { StartOfLineTrace, EndOfLineTrace };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API UGrabber : public UActorComponent
@@ -39,7 +40,9 @@ private:
 	void FindPhysicsHandlerComponent();
 	//Setup (assumed) attached input component 
 	void SetupInputComponent();
-
 	//Return hit for first physics body in reach 
 	const FHitResult GetFirstPhysicsBodyInReach();
+
+	const FVector GetPawnLineTracePosition( ELineTracePosition);
 };
+
