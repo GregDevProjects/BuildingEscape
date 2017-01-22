@@ -53,18 +53,19 @@ void UGrabber::SetupInputComponent()
 
 const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 {
-	FVector PlayerViewPointLocation = GetPawnLineTracePosition(ELineTracePosition::PlayerViewPoint);
+	FVector PlayerViewPointLocation = GetPawnLineTracePosition(ELineTracePosition::StartOfLineTrace);
 	FVector LineTraceEnd = GetPawnLineTracePosition(ELineTracePosition::EndOfLineTrace);
-	DrawDebugLine(
-		GetWorld(),
-		PlayerViewPointLocation,
-		LineTraceEnd,
-		FColor(255, 0, 0),
-		false,
-		0.f,
-		0.f,
-		10.f
-	);
+	//debug trace line 
+	//DrawDebugLine(
+	//	GetWorld(),
+	//	PlayerViewPointLocation,
+	//	LineTraceEnd,
+	//	FColor(255, 0, 0),
+	//	false,
+	//	0.f,
+	//	0.f,
+	//	10.f
+	//);
 	//Setup query parameters 
 	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
 	FHitResult Hit;

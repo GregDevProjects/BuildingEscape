@@ -44,5 +44,6 @@ private:
 	const FHitResult GetFirstPhysicsBodyInReach();
 
 	const FVector GetPawnLineTracePosition( ELineTracePosition);
+
 };
 
