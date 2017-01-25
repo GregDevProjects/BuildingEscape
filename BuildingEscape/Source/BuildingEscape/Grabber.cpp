@@ -108,6 +108,7 @@ const FVector UGrabber::GetPawnLineTracePosition(ELineTracePosition TracePositio
 
 
 void UGrabber::Grab() {
+	if (!PhysicsHandle) { return; }
 	UE_LOG(LogTemp, Warning, TEXT("Grab Pressed"));
 
 	//LINE TRACE Try and reach any actors with physics body collision channel set 
@@ -127,7 +128,9 @@ void UGrabber::Grab() {
 }
 
 void UGrabber::Release() {
+	if (!PhysicsHandle) { return; }
 	UE_LOG(LogTemp, Warning, TEXT("Grab Released"));
+	
 	PhysicsHandle->ReleaseComponent();
 }
 
@@ -135,12 +138,12 @@ void UGrabber::Release() {
 void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-
+	
 	//if physics handle is attached 
-	if (PhysicsHandle) {
-		if (PhysicsHandle->GrabbedComponent) {
-			//move the object that we're holding 
-			PhysicsHandle->SetTargetLocation(GetPawnLineTracePosition(ELineTracePosition::EndOfLineTrace));
-		}
-	}	
+	if (!PhysicsHandle) {return;}
+	if (PhysicsHandle->GrabbedComponent) {
+		//move the object that we're holding 
+		PhysicsHandle->SetTargetLocation(GetPawnLineTracePosition(ELineTracePosition::EndOfLineTrace));
+	}
+		
 }
