@@ -41,7 +41,7 @@ void UOpenGameWinningDoor::TickComponent( float DeltaTime, ELevelTick TickType, 
 	}
 
 	if (bGameIsWon) {
-		//UE_LOG(LogTemp, Warning, TEXT("Win hit!"));
+		UE_LOG(LogTemp, Warning, TEXT("Win hit!"));
 	}
 
 	// ...
