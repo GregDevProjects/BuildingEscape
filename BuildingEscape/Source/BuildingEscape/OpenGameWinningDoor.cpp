@@ -41,10 +41,16 @@ void UOpenGameWinningDoor::TickComponent( float DeltaTime, ELevelTick TickType, 
 	}
 
 	if (bGameIsWon) {
-		UE_LOG(LogTemp, Warning, TEXT("Win hit!"));
+		bAllTriggersAreHit = true; 
+		GetOwner()->SetActorTickEnabled(false);
 	}
 
 	// ...
+}
+
+bool UOpenGameWinningDoor::GetAllTriggersHit()
+{
+	return bAllTriggersAreHit;
 }
 
 void UOpenGameWinningDoor::InitialIzeKeyTriggers()

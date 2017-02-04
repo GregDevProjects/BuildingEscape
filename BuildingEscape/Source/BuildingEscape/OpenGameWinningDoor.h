@@ -23,6 +23,8 @@ public:
 	
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
+	bool GetAllTriggersHit();
+	
 
 private:
 	UPROPERTY(EditAnywhere)
@@ -37,4 +39,6 @@ private:
 
 	//extract all UKeySpotlightTrigger classes from  TriggerSpotLight components 
 	void InitialIzeKeyTriggers();
+
+	bool bAllTriggersAreHit = false;
 };

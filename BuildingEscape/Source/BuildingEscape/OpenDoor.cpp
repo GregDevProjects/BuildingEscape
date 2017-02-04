@@ -22,10 +22,13 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if (!PressurePlate) {
-		UE_LOG(LogTemp, Warning, TEXT("Pressure plate is null!"));
+
+
+	OpenGameWinningDoor = GetOwner()->FindComponentByClass<UOpenGameWinningDoor>();
+
+	if ( !OpenGameWinningDoor) {
+		UE_LOG(LogTemp, Warning, TEXT("OpenGameWinningDoor on %s is null!"), *GetOwner()->GetName());
 	}
-	Owner = GetOwner();
 	
 }
 
@@ -34,36 +37,14 @@ void UOpenDoor::BeginPlay()
 void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-
-	//Poll the Trigger 
-	if (GetTotalMassOfActorsOnPlate() > MassRequiredToOpenDoor) //TODO make into a parameter
-	{
+		
+	if (!OpenGameWinningDoor) { return; }
+	if (OpenGameWinningDoor->GetAllTriggersHit()) {
 		OnOpenRequest.Broadcast();
 	}
-	else {
 		//TODO broacast close door 
-		OnCloseRequest.Broadcast();
-	}
-	float CurrentTime = GetWorld()->GetTimeSeconds();
-
-	
+		//OnCloseRequest.Broadcast();
 	
 }
 
-float UOpenDoor::GetTotalMassOfActorsOnPlate() {
-	
-	float TotalMass = 0.f;
-	if (!PressurePlate) { return TotalMass; }
-	//find all the overlapping actors 
-	TArray<AActor*> OverLappingActors;
-	
-	PressurePlate->GetOverlappingActors(OUT OverLappingActors);
-	//Itrate through them adding their masses 
-	for (const auto* Actor : OverLappingActors)
-	{
-		TotalMass += Actor->GetRootPrimitiveComponent()->GetMass();
-		//UE_LOG(LogTemp, Error, TEXT("total mass+= %s"), *Actor->GetName());
-	}
-	return TotalMass;
-}
 

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "OpenGameWinningDoor.h"
 #include "Components/ActorComponent.h"
 #include "OpenDoor.generated.h"
 
@@ -32,16 +33,6 @@ public:
 		FOnCloseRequest OnCloseRequest;
 
 private:
-	UPROPERTY(EditAnywhere)
-		ATriggerVolume* PressurePlate;
-
-	AActor* Owner = nullptr;
-
-	UPROPERTY(EditAnywhere)
-	float MassRequiredToOpenDoor = 50.f;
-
-	//return total mass in kg
-	float GetTotalMassOfActorsOnPlate();
-
+	UOpenGameWinningDoor* OpenGameWinningDoor = nullptr;
 
 };
