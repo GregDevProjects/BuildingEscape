@@ -45,11 +45,11 @@ void UTeleportTwoActors::TickComponent( float DeltaTime, ELevelTick TickType, FA
 	}
 }
 
-void UTeleportTwoActors::TeleportAndRemoveVelocity(FVector Location, AActor* ActorToTeleport)
+void UTeleportTwoActors::TeleportAndRemoveVelocity(FVector Location, AActor* ActorThatWillBeTeleported)
 {
 	//set actort location + rotation
-	ActorToTeleport->TeleportTo(Location, FRotator(0.f, 0.f, 0.f),false,true);
+	ActorThatWillBeTeleported->TeleportTo(Location, FRotator(0.f, 0.f, 0.f),false,true);
 	//remove physics so actor will not retain old velocity
-	ActorToTeleport->GetRootPrimitiveComponent()->SetAllPhysicsLinearVelocity(FVector(0.f, 0.f, 0.f));
+	ActorThatWillBeTeleported->FindComponentByClass<UPrimitiveComponent>()->SetAllPhysicsLinearVelocity(FVector(0.f, 0.f, 0.f));
 }
 

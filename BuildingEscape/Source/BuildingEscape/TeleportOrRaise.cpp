@@ -25,24 +25,14 @@ void UTeleportOrRaise::BeginPlay()
 	Player = GetWorld()->GetFirstPlayerController();
 
 
-	if (TeleportTrigger) {
-		UE_LOG(LogTemp, Warning, TEXT("TEle trigger found!"));
-	}
-	
-	for (TActorIterator<ATriggerVolume> ActorItr(GetWorld()); ActorItr; ++ActorItr)
-	{
-		// Same as with the Object Iterator, access the subclass instance with the * or -> operators.
-		FString ActorLabel = *ActorItr->GetActorLabel();
-		if (ActorLabel.Equals("Trigger_tech")) {
-			TeleportTrigger = *ActorItr;
-			bDidPassValidation = true;
-		}
+	if (TeleportTrigger && KeyToRaisePlatform) {
+		bDidPassValidation = true;
 		
 	}
-
-
-
-	// ...
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("No TriggerVolume found for %s"), *GetOwner()->GetName());
+	}
+	
 	
 }
 
@@ -60,7 +50,7 @@ void UTeleportOrRaise::TickComponent( float DeltaTime, ELevelTick TickType, FAct
 	//Itrate through them adding their masses 
 	for (const auto& Actor : OverLappingActors)
 	{
-		if (Actor->GetActorLabel().Equals("Glow_Sphere_Blueprint")) { 
+		if (Actor == KeyToRaisePlatform) {
 			OnTriggerHitsKey.Broadcast(); 
 			GetOwner()->SetActorTickEnabled(false);
 		}

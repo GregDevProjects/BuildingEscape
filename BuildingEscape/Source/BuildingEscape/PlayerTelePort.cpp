@@ -37,7 +37,7 @@ void UPlayerTelePort::TickComponent( float DeltaTime, ELevelTick TickType, FActo
 		//set actort location + rotation
 		ActorToTeleport->TeleportTo(TeleportLocation, FRotator(0.f, 0.f, 0.f));
 		//remove physics so actor will not retain old velocity
-		ActorToTeleport->GetRootPrimitiveComponent()->SetAllPhysicsLinearVelocity(FVector(0.f, 0.f, 0.f));
+		ActorToTeleport->FindComponentByClass<UPrimitiveComponent>()->SetAllPhysicsLinearVelocity(FVector(0.f, 0.f, 0.f));
 	}
 }
 

@@ -108,16 +108,18 @@ const FVector UGrabber::GetPawnLineTracePosition(ELineTracePosition TracePositio
 
 
 void UGrabber::Grab() {
-	if (!PhysicsHandle) { return; }
+	if (!PhysicsHandle ) { return; }
 	UE_LOG(LogTemp, Warning, TEXT("Grab Pressed"));
 
 	//LINE TRACE Try and reach any actors with physics body collision channel set 
 	auto HitResult = GetFirstPhysicsBodyInReach();
-	auto ComponentToGrab = HitResult.GetComponent();
+	ComponentToGrab = HitResult.GetComponent();
 	auto ActorHit = HitResult.GetActor();
 	//If we hit something then attach a physics handle 
 	//TODO	Attach physics handle
 	if (ActorHit) {
+		//allow overlapping with the player so they don't collide and push each other around
+		ComponentToGrab->BodyInstance.SetResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
 		PhysicsHandle->GrabComponent(
 			ComponentToGrab,
 			NAME_None,
@@ -128,10 +130,13 @@ void UGrabber::Grab() {
 }
 
 void UGrabber::Release() {
-	if (!PhysicsHandle) { return; }
+	if (!PhysicsHandle || !ComponentToGrab) { return; }
 	UE_LOG(LogTemp, Warning, TEXT("Grab Released"));
 	
 	PhysicsHandle->ReleaseComponent();
+	//allow collisions with the player after release
+	ComponentToGrab->BodyInstance.SetResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
+	ComponentToGrab = nullptr;
 }
 
 // Called every frame
@@ -140,7 +145,7 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 	
 	//if physics handle is attached 
-	if (!PhysicsHandle) {return;}
+	if (!PhysicsHandle ) {return;}
 	if (PhysicsHandle->GrabbedComponent) {
 		//move the object that we're holding 
 		PhysicsHandle->SetTargetLocation(GetPawnLineTracePosition(ELineTracePosition::EndOfLineTrace));

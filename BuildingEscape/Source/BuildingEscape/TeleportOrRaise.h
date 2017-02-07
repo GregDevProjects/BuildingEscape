@@ -26,14 +26,17 @@ public:
 		FOnTriggerHitsKey OnTriggerHitsKey;
 
 	UPROPERTY(EditAnywhere)
-		FVector TeleportLocation;
+		ATriggerVolume* TeleportTrigger;
+
+	UPROPERTY(EditAnywhere)
+		AActor* KeyToRaisePlatform;
 
 private:
 	bool bDidPassValidation = false;
 
 	AActor* Player = nullptr;
 
-	ATriggerVolume* TeleportTrigger = nullptr;
+	//ATriggerVolume* TeleportTrigger = nullptr;
 		
 	
 };

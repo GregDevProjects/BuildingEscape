@@ -43,6 +43,8 @@ private:
 	//Return hit for first physics body in reach 
 	const FHitResult GetFirstPhysicsBodyInReach();
 
+	UPrimitiveComponent* ComponentToGrab = nullptr;
+
 	const FVector GetPawnLineTracePosition( ELineTracePosition);
 
 };
